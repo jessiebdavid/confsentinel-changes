@@ -1,0 +1,50 @@
+{
+  "version": "1.0.0-embedded",
+  "rules": [
+    {
+      "id": "1905bf33-281b-53c2-8fe8-eb6e3e5f2cfd",
+      "ruleCode": "SEC-001",
+      "name": "Disallow Plaintext Database Passwords",
+      "category": "SECURITY",
+      "severity": "BLOCKER",
+      "targetPattern": "application.*\\.ya?ml$",
+      "keyPath": "spring.datasource.password",
+      "checkType": "REGEX_MUST_NOT_MATCH",
+      "parameter": "^(?!\\$\\{).*$",
+      "minValue": null,
+      "maxValue": null,
+      "remediation": "Do not commit plaintext credentials. Wrap value in environment variable: ${DB_PASSWORD}",
+      "ruleHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "id": "e2f7b824-34dc-5a82-93e1-7e810a9c41a9",
+      "ruleCode": "REL-101",
+      "name": "Hikari Maximum Pool Size Range",
+      "category": "RELIABILITY",
+      "severity": "CRITICAL",
+      "targetPattern": "application-prod\\.ya?ml$",
+      "keyPath": "spring.datasource.hikari.maximum-pool-size",
+      "checkType": "NUMERIC_RANGE",
+      "parameter": null,
+      "minValue": 5.0,
+      "maxValue": 50.0,
+      "remediation": "Production database connection pools must be constrained between 5 and 50 connections.",
+      "ruleHash": "c71a39d48b1e428e937d2f9b1c73a8e945c210d3e5b7a19283f47e2b10a9c8f1"
+    },
+    {
+      "id": "b3e9a112-45dc-5e91-87a2-1e902b7c53d1",
+      "ruleCode": "SEC-002",
+      "name": "Disallow Wildcard Actuator Web Exposure",
+      "category": "SECURITY",
+      "severity": "BLOCKER",
+      "targetPattern": "application.*\\.ya?ml$",
+      "keyPath": "management.endpoints.web.exposure.include",
+      "checkType": "REGEX_MUST_NOT_MATCH",
+      "parameter": "\\*",
+      "minValue": null,
+      "maxValue": null,
+      "remediation": "Never expose all actuator endpoints via wildcard (*). Explicitly whitelist endpoints (e.g. [health, info, prometheus]).",
+      "ruleHash": "a190f8423e819c4d81729b4e1c93a8d765b210e3d4c7a19283e47a2b10b9c8e2"
+    }
+  ]
+}

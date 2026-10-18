@@ -1,0 +1,21 @@
+# ConfSentinel CLI
+
+Shift-Left Cloud-Native Configuration Governance & Policy Enforcement CLI.
+
+---
+
+## Prerequisites
+
+- **Python**: Version 3.11 or higher
+- **Package Manager**: `pip` (bundled with Python)
+
+---
+
+## Installation
+
+### Option 1: Install from Built Wheel (`.whl`)
+
+#### Windows (Command Prompt)
+```cmd
+:: Replace with the exact wheel name generated in dist\
+pip install dist\confsentinel_cli-1.0.0-py3-none-any.whl

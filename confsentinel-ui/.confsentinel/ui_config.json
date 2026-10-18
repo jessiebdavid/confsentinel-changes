@@ -1,0 +1,5 @@
+{
+  "base_url": "http://localhost:8080",
+  "auth_token": "cs_gov_82cd066d2038732b17129784bda2e7d74dc88b2072a9f1c76a32f7cae2c47fc8",
+  "poll_interval": 10.0
+}

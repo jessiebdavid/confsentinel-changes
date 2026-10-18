@@ -1,0 +1,65 @@
+name: Build and Package ConfSentinel CLI
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  test-and-package:
+    name: Build Wheel & Package Artifacts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install Build Tooling & Test Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install build pytest ruamel.yaml rich httpx pydantic typer
+
+      - name: Run Unit Tests
+        run: |
+          python -m pytest -v
+
+      - name: Build Standard Source Distribution and Wheel
+        run: |
+          python -m build
+
+      - name: Verify Wheel Execution & Embedded Resources
+        run: |
+          pip install dist/*.whl
+          confsentinel --help
+          python -c "import confsentinel.transport.client as c; rules = c.ResilientRuleTransportClient(None)._load_baseline(); assert len(rules) >= 3; print(f'Successfully loaded {len(rules)} embedded rules from wheel!')"
+
+      - name: Upload Python Package Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: confsentinel-cli-dist
+          path: dist/*
+          retention-days: 14
+
+      - name: Publish to GitHub Releases (On Version Tags)
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

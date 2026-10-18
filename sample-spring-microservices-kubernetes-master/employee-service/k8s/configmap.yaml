@@ -1,0 +1,11 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: employee
+  labels:
+    spring.cloud.kubernetes.config: "true"
+data:
+  application.properties: |-
+    spring.mongodb.host: mongodb
+    spring.mongodb.database: admin
+    spring.mongodb.authentication-database: admin

@@ -1,0 +1,34 @@
+---
+rule_code: "REL-101"
+name: "Hikari Maximum Pool Size Bounded"
+category: "RELIABILITY"
+severity: "CRITICAL"
+target_pattern: "application-prod\\.ya?ml$"
+key_path: "spring.datasource.hikari.maximum-pool-size"
+check_type: "NUMERIC_RANGE"
+min_value: 5.0
+max_value: 50.0
+remediation: "Production connection pool sizes must be scaled between 5 and 50 connections to prevent database socket exhaustion."
+
+---
+rule_code: "REL-102"
+name: "Hikari Minimum Idle Connections Range"
+category: "RELIABILITY"
+severity: "WARNING"
+target_pattern: "application.*\\.ya?ml$"
+key_path: "spring.datasource.hikari.minimum-idle"
+check_type: "NUMERIC_RANGE"
+min_value: 2.0
+max_value: 10.0
+remediation: "Minimum idle connections should stay between 2 and 10 to ensure rapid warm startup without reserving idle capacity."
+
+---
+rule_code: "REL-103"
+name: "Enforce Secure SSL for Database URLs"
+category: "RELIABILITY"
+severity: "WARNING"
+target_pattern: "application-prod\\.ya?ml$"
+key_path: "spring.datasource.url"
+check_type: "REGEX_MUST_MATCH"
+parameter: "(?i)sslmode=(require|verify-full|verify-ca)"
+remediation: "Production JDBC URLs should explicitly mandate SSL connections via sslmode=require or verify-full."

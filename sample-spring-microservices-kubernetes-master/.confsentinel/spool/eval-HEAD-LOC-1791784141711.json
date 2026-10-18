@@ -1,0 +1,19 @@
+{
+  "serviceName": "sample-spring-microservices",
+  "environment": "prod",
+  "commitHash": "HEAD-LOCAL",
+  "branch": "local",
+  "author": "sribala.027@gmail.com",
+  "durationMs": 0,
+  "status": "PASSED",
+  "blockersCount": 0,
+  "warningsCount": 0,
+  "driftSummary": {
+    "baseEnv": "dev",
+    "targetEnv": "prod",
+    "baseKeysCount": 0,
+    "targetKeysCount": 14,
+    "unboundBaseKeys": []
+  },
+  "violations": []
+}

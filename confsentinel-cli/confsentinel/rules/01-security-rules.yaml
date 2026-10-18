@@ -1,0 +1,42 @@
+---
+rule_code: "SEC-001"
+name: "Disallow Plaintext Database Passwords"
+category: "SECURITY"
+severity: "BLOCKER"
+target_pattern: "application.*\\.ya?ml$"
+key_path: "spring.datasource.password"
+check_type: "REGEX_MUST_NOT_MATCH"
+parameter: "^(?!\\$\\{).*$"
+remediation: "Never commit plaintext credentials. Wrap in an environment variable placeholder: ${DB_PASSWORD}"
+
+---
+rule_code: "SEC-002"
+name: "Disallow Wildcard Actuator Web Exposure"
+category: "SECURITY"
+severity: "BLOCKER"
+target_pattern: "application.*\\.ya?ml$"
+key_path: "management.endpoints.web.exposure.include"
+check_type: "REGEX_MUST_NOT_MATCH"
+parameter: "\\*"
+remediation: "Never expose all actuator endpoints via wildcard (*). Explicitly specify allowed endpoints (e.g. ['health', 'info', 'prometheus'])."
+
+---
+rule_code: "SEC-003"
+name: "Disallow Dangerous Hibernate DDL Auto"
+category: "SECURITY"
+severity: "CRITICAL"
+target_pattern: "application-prod\\.ya?ml$"
+key_path: "spring.jpa.hibernate.ddl-auto"
+check_type: "REGEX_MUST_NOT_MATCH"
+parameter: "(?i)(create|create-drop)"
+remediation: "Production environments must never drop schema on startup. Set to 'validate' or 'none'."
+
+---
+rule_code: "SEC-004"
+name: "Disallow H2 Console in Production"
+category: "SECURITY"
+severity: "BLOCKER"
+target_pattern: "application-prod\\.ya?ml$"
+key_path: "spring.h2.console.enabled"
+check_type: "KEY_MUST_NOT_EXIST"
+remediation: "In-memory H2 database web console must be completely removed from production configurations."

@@ -1,0 +1,21 @@
+name: Publish Governance Policies
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'rules/**'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish Guardrails
+        uses: ./.github/actions/confsentinel-publish
+        with:
+          rules-dir: "./rules"
+          engine-url: "http://governance-engine:8080"
+          governance-token: ${{ secrets.CONFSENTINEL_GOVERNANCE_TOKEN }}
+          prune: "false"

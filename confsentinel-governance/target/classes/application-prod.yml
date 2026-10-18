@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/orders_prod?sslmode=require
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: 25
+      minimum-idle: 5
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+management:
+  otlp:
+    tracing:
+      endpoint: https://otel-collector.internal:4317
+  endpoints:
+    web:
+      exposure:
+        include: ["health", "info", "prometheus"]

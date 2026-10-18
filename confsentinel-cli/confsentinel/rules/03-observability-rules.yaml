@@ -1,0 +1,19 @@
+---
+rule_code: "OBS-201"
+name: "Enforce OTLP Tracing Exporter Endpoint"
+category: "OBSERVABILITY"
+severity: "BLOCKER"
+target_pattern: "application.*\\.ya?ml$"
+key_path: "management.otlp.tracing.endpoint"
+check_type: "KEY_MUST_EXIST"
+remediation: "All services must declare an OpenTelemetry collector endpoint for distributed tracing: management.otlp.tracing.endpoint"
+
+---
+rule_code: "OBS-202"
+name: "Enforce Prometheus Metrics Exposure"
+category: "OBSERVABILITY"
+severity: "WARNING"
+target_pattern: "application.*\\.ya?ml$"
+key_path: "management.prometheus.metrics.export.enabled"
+check_type: "KEY_MUST_EXIST"
+remediation: "Prometheus scraping metrics export flag must be explicitly configured."
